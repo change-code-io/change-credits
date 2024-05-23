@@ -1,0 +1,16 @@
+{
+    "name": "Protecting Trees in Amazon",
+    "description": "This Hypercert represents the protection of trees in the Amazon rainforest.",
+    "image": "https://example.com/amazon-trees.png",
+    "workScope": ["Protecting Trees in Amazon"],
+    "impactScope": ["CO2 in Atmosphere", "Methane in Atmosphere"],
+    "workTimeframeStart": 1356998400,
+    "workTimeframeEnd": 1388534399,
+    "impactTimeframeStart": 1356998400,
+    "impactTimeframeEnd": 0,
+    "contributors": [
+      "0xa1fa1fa000000000000000000000000000000000",
+      "Project Forest Conservation"
+    ],
+    "rights": ["Public Display"]
+  }

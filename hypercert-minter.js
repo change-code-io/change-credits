@@ -1,10 +1,11 @@
 import { createWalletClient, http } from 'viem'
 import { sepolia } from 'viem/chains'
 import { privateKeyToAccount } from 'viem/accounts'
-import { ALCHEMY } from './config.js'
+import { ALCHEMY, key } from './config.js'
 import { HypercertClient, formatHypercertData, TransferRestrictions } from '@hypercerts-org/sdk'
- 
-const account = privateKeyToAccount('');
+import fs from 'fs'
+
+const account = privateKeyToAccount(key);
 
 const walletClient = createWalletClient({
   account,
@@ -17,20 +18,27 @@ const client = new HypercertClient({
   walletClient,
 });
 
-const { metadata } = formatHypercertData({
-  name: "Test Hypercert", // Add a valid name
-  description: "This is a test hypercert", // Add a valid description
-  image: "https://example.com/image.png", // Add a valid image URL
-  impactScope: ["Impact Scope 1", "Impact Scope 2"],
-  workScope: ["Work Scope 1", "Work Scope 2"],
-  rights: ["Public Display"],
-  contributors: ["0x"], // Add valid contributor addresses
-});
+// Read the metadata from the JSON file
+const metadataJson = fs.readFileSync('./metadata.json', 'utf8');
+const metadataObject = JSON.parse(metadataJson);
+
+// Validate and format your Hypercert metadata
+const { valid, errors, data: metadata } = formatHypercertData(metadataObject);
+
+if (!valid) {
+  console.error("Metadata validation errors:", errors);
+  process.exit(1);
+}
+
 const totalUnits = 10000n;
 
-const txHash = await client.mintClaim({
-  metadata,
-  totalUnits,
-  transferRestrictions: TransferRestrictions.FromCreatorOnly,
-
-});
+try {
+  const tx = await client.mintClaim({
+    metadata,
+    totalUnits,
+    transferRestrictions: TransferRestrictions.FromCreatorOnly,
+  });
+  console.log("Minting transaction:", tx);
+} catch (error) {
+  console.error("Error minting claim:", error);
+}
