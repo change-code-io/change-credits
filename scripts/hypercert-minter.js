@@ -1,7 +1,7 @@
 import { createWalletClient, http } from 'viem'
 import { sepolia } from 'viem/chains'
 import { privateKeyToAccount } from 'viem/accounts'
-import { ALCHEMY, key } from './config.js'
+import { ALCHEMY, key } from '../config.js'
 import { HypercertClient, formatHypercertData, TransferRestrictions } from '@hypercerts-org/sdk'
 import fs from 'fs'
 
@@ -14,7 +14,7 @@ const walletClient = createWalletClient({
 });
 
 const client = new HypercertClient({
-  chain: { id: 11155111 }, // required
+  chain: { id: 11155420 }, // required
   walletClient,
 });
 
